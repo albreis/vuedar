@@ -1,9 +1,9 @@
 const path = require('path')
 
 module.exports = {
-  componentsRoot: 'src',
-  components: '**/*.{vue,js,jsx,ts,tsx}',
-  outDir: 'documentation/components',
+  componentsRoot: './',
+  components: '{src,exemplos}/**/*.{vue,js,jsx,ts,tsx}',
+  outDir: 'documentation',
   docsRepo: 'albreis/vuedar',
   docsBranch: 'master',
   docsFolder: 'documentation',

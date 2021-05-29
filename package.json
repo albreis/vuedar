@@ -1,6 +1,6 @@
 {
   "name": "@ersolucoesweb/vuedar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Calendário",
   "author": "ER Soluções Web LTDA <contato@ersolucoesweb.com.br>",
@@ -16,6 +16,7 @@
     "commit:doc": "git commit -m 'Updating docs'",
     "postcommit:doc": "git push",
     "precommit": "git add .",
+    "jsdocs": "jsdoc -c jsdoc.json",
     "commit": "git commit -m",
     "postcommit": "git push",
     "docs:eject": "vuepress eject documentation",
@@ -32,9 +33,7 @@
     "./sfc": "src/Vueder.vue"
   },
   "unpkg": "dist/vuedar.min.js",
-  "dependencies": {
-    "@ersolucoesweb/vuedar": "^3.5.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
     "@rollup/plugin-commonjs": "^11.1.0",

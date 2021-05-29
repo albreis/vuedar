@@ -1,9 +1,9 @@
 ---
 home: true
-heroText: Vueder
-tagline: Form Builder
+heroText: Vuedar
+tagline: Calendário
 actionText: Quero usar →
-actionLink: /exemplos/
+actionLink: /src/vuedar.html
 features:
 - title: Simples
   details: Fácil de entender
