@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/vuegic/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/vuedar/' : '/',
   devServer: {
     host: 'everaldoreis.com.br',
     https: false,
