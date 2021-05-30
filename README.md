@@ -2,7 +2,7 @@
 
 Componente para criar calendário
 
-![img]("https://raw.githubusercontent.com/albreis/vuedar/master/print.png")
+![Calendário VueJS](https://raw.github.com/albreis/vuedar/master/print.png)
 
 Acesse a documentação em https://albreis.github.io/vuedar/
 
