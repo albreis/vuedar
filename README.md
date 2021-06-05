@@ -6,13 +6,13 @@ Componente para criar calendário
 
 ## Instalação 
 
-```bash
+```properties
 yarn add @ersolucoesweb/vuedar
 ```
 
 ou
 
-```
+```properties
 npm i -s @ersolucoesweb/vuedar
 ```
 
