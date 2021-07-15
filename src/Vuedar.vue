@@ -198,12 +198,12 @@ export default {
         /**
          * Set current month name
          */
-        this.selected_month = this.monthsNames[this.months[0]];
+        this.selected_month = this.months.includes(this.active_date.getMonth()) ? this.monthsNames[this.active_date.getMonth()] : this.monthsNames[this.months[0]];
 
         /**
          * Set current month number
          */
-        this.selected_month_key = this.months[0];
+        this.selected_month_key = this.months.includes(this.active_date.getMonth()) ? this.months.indexOf(this.active_date.getMonth()) : this.months[0];
 
         /**
          * Set current day

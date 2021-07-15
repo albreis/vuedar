@@ -1,5 +1,5 @@
 <template>
-    <Vuedar :dates="{'26052021': true}" :months="[1, 4, 8]" :years="[2021, 2022, 2023]" />
+    <Vuedar :dates="{'26052021': true}" :months="[1, 4, 6, 8]" :years="[2021, 2022, 2023]" />
 </template>
 <script>
 /**
