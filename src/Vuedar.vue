@@ -113,7 +113,6 @@ export default {
     computed: {
         active_date: {
             set: function(v) {
-                this.current_date = v
             },
             get: function() {
                 return this.current_date
