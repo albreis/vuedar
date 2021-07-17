@@ -903,6 +903,13 @@
     "@babel/helper-validator-identifier" "^7.14.0"
     to-fast-properties "^2.0.0"
 
+"@ersolucoesweb/vuegic@^3.5.0", "@ersolucoesweb/vuegic@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@ersolucoesweb/vuegic/-/vuegic-3.5.1.tgz#739d836a1d10930501681d92eb1118f83a135986"
+  integrity sha512-C66rikA2/o6FTDHpuf2UCr3YFZiwLK5jhjFW/Q3J2jS4Kt2BViXqCdvQWYiP2VQcW9tihOg82A/Ztb2ZcQE8tg==
+  dependencies:
+    "@ersolucoesweb/vuegic" "^3.5.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npmjs.org/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz"

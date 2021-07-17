@@ -42,6 +42,7 @@
                         <strong v-for="wday in weekdays" :key="wday">{{wday.substr(0,3)}}</strong>
                     </div>
                 </slot>
+                {{selected_month_key}}{{selected_year}}
                 <!-- @slot Days in month -->
                 <slot name="day">
                     <div class="days-month">
@@ -113,7 +114,7 @@ export default {
     computed: {
         active_date: {
             set: function(v) {
-                this.current_date
+                this.current_date = v
             },
             get: function() {
                 return this.current_date
@@ -198,12 +199,13 @@ export default {
         /**
          * Set current month name
          */
-        this.selected_month = this.months.includes(this.active_date.getMonth()) ? this.monthsNames[this.active_date.getMonth()] : this.monthsNames[this.months[0]];
+        let monthNumber = this.months.includes(this.active_date.getMonth()+1) ? (this.active_date.getMonth()+1) : 1;
+        this.selected_month = this.monthsNames[monthNumber];
 
         /**
          * Set current month number
          */
-        this.selected_month_key = this.months.includes(this.active_date.getMonth()) ? this.months.indexOf(this.active_date.getMonth()) : this.months[0];
+        this.selected_month_key = monthNumber;
 
         /**
          * Set current day
@@ -314,8 +316,6 @@ export default {
             this.selected_day = m
             this.active_date = new Date
             this.active_date.setDate(m)
-
-            this.$emit('change_day', this.active_date)
         },
 
         /**
