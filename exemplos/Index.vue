@@ -1,5 +1,5 @@
 <template>
-    <Vuedar :dates="{'26052021': true}" :months="[1, 4, 7, 8]" :years="[2021, 2022, 2023]" />
+    <Vuedar :firstWeekDay="1" :weekdays="weekdays" :months="[1, 4, 7, 8]" :years="[2021, 2022, 2023]" />
 </template>
 <script>
 /**
@@ -11,6 +11,11 @@ import Vuedar from '../src/Vuedar'
 export default {
     components: {
         Vuedar
+    },
+    data() {
+        return {
+            weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        }
     }
 }
 </script>

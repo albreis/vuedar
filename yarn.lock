@@ -903,6 +903,13 @@
     "@babel/helper-validator-identifier" "^7.14.0"
     to-fast-properties "^2.0.0"
 
+"@ersolucoesweb/vuedar@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@ersolucoesweb/vuedar/-/vuedar-3.4.0.tgz#430f8318fc6d54ff6dbb3512d05baa76d7b435fe"
+  integrity sha512-VXfiradXIBaRUBM7f7tg6Lq2yNX68K3y25XvgPBa566nOO/V4+YTwL5lUgjc6BczdJ2RatPWOyNyF1KtQktcwA==
+  dependencies:
+    "@ersolucoesweb/vuegic" "^3.5.1"
+
 "@ersolucoesweb/vuegic@^3.5.0", "@ersolucoesweb/vuegic@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ersolucoesweb/vuegic/-/vuegic-3.5.1.tgz#739d836a1d10930501681d92eb1118f83a135986"

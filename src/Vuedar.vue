@@ -39,16 +39,16 @@
                 <slot name="weekdays">
                     <div class="days-weekdays">
                         <!-- @bind Weekdays -->
-                        <strong v-for="wday in weekdays" :key="wday">{{wday.substr(0,3)}}</strong>
+                        <strong v-for="wday in current_weekdays" :key="wday">{{wday.substr(0,3)}}</strong>
                     </div>
                 </slot>
                 <!-- @slot Days in month -->
                 <slot name="day">
                     <div class="days-month">
-                        <div class="dia disabled" :class="{event: dates[`${d.toString().padStart(2, '0')}${(selected_month_key+1).toString().padStart(2, '0')}${selected_year}`]}" v-for="d in initialDay" :key="`a${d}`"><span>{{(lastMonth.getDate() - initialDay) + d}}</span></div>
+                        <div class="dia disabled" :class="{event: isActive(d)}" v-for="d in initialDay" :key="`a${d}`"><span>{{(lastMonth.getDate() - initialDay) + d}}</span></div>
                         <!-- @bind Dates to highlights in calendar -->
-                        <div class="dia" v-for="d in days" :key="`b${d}`" :class="{today: d == today.getDate() && selected_month_key == today.getMonth() && selected_year == today.getFullYear(), selected: selected_day == d, event: dates[`${d.toString().padStart(2, '0')}${(selected_month_key+1).toString().padStart(2, '0')}${selected_year}`]}" @click="setDay(d)"><span>{{d}}</span></div>
-                        <div class="dia disabled" :class="{event: dates[`${d.toString().padStart(2, '0')}${(selected_month_key+1).toString().padStart(2, '0')}${selected_year}`]}" v-for="d in (6 - finalDay)" :key="`c${d}`"><span>{{d}}</span></div>
+                        <div class="dia" v-for="d in days" :key="`b${d}`" :class="{today: d == today.getDate() && selected_month_key == today.getMonth() && selected_year == today.getFullYear(), selected: selected_day == d, event: isActive(d)}" @click="setDay(d)"><span>{{d}}</span></div>
+                        <div class="dia disabled" :class="{event: isActive(d)}" v-for="d in (6 - finalDay)" :key="`c${d}`"><span>{{d}}</span></div>
                     </div>
                 </slot>
             </div>
@@ -95,6 +95,14 @@ export default {
         },
 
         /**
+         * First weekday
+         */
+        firstWeekDay: {
+            type: Number,
+            default: () => 0
+        },
+
+        /**
          * Dates to create calendar highlight markup
          */
         dates: {
@@ -117,9 +125,6 @@ export default {
             get: function() {
                 return this.current_date
             }
-        },
-        month_key() {
-            return 1
         }
     },
     data(){
@@ -188,7 +193,8 @@ export default {
              * Total days in current month
              */
             days: 0,
-            loading: false
+            loading: false,
+            current_weekdays: []
         }
     },
     mounted() {
@@ -216,8 +222,19 @@ export default {
          * Update calendar interface
          */
         this.update()
+
+        this.getFirsWeekDay()
+       
+    },
+    created() {
+        this.getFirsWeekDay()
     },
     watch: {
+        firstWeekDay() { 
+        this.update()
+            this.getFirsWeekDay()
+        },
+
         /**
          * On change year
          * @event change_year
@@ -275,6 +292,22 @@ export default {
         }
     },
     methods: {
+        isActive(d) {
+            if(!this.dates || Object.keys(this.dates).length == 0) return false;
+            return this.dates[`${d.toString().padStart(2, '0')}${(this.selected_month_key+1).toString().padStart(2, '0')}${this.selected_year}`]
+        },
+        getFirsWeekDay() { 
+            let firstdays = this.weekdays.slice(0, this.firstWeekDay)
+            let lastdays = this.weekdays.slice(this.firstWeekDay, this.weekdays.length)
+            let week = []
+            for(let i in lastdays) {
+                week.push(lastdays[i])
+            }
+            for(let i in firstdays) {
+                week.push(firstdays[i])
+            }
+            this.current_weekdays = week
+        },
         /**
          * Change year
          * @method
@@ -286,7 +319,7 @@ export default {
             this.selected_year_key = k
             this.selectYear = false
             this.selected_day = null
-            if(this.selected_year == this.today.getFullYear() && this.month_key == this.today.getMonth()) {
+            if(this.selected_year == this.today.getFullYear() && (this.selected_month_key-1) == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
         },
@@ -302,7 +335,7 @@ export default {
             this.selected_month_key = m
             this.selectMonth = false
             this.selected_day = null
-            if(this.selected_year == this.today.getFullYear() && this.month_key == this.today.getMonth()) {
+            if(this.selected_year == this.today.getFullYear() && (this.selected_month_key-1) == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
         },
@@ -325,13 +358,12 @@ export default {
          */
         next() {
             this.selected_month_key++
-            console.log(Math.min(...this.months), this.selected_month_key)
             if(this.selected_month_key > Math.max(...this.months)) {
                 this.selected_month_key = Math.min(...this.months)-1
                 this.selected_year++
             }
             if(this.months.indexOf(this.selected_month_key+1) == -1) {
-                this.next()
+                return this.next()
             }
             if(this.selected_year > Math.max(...this.years)) {
                 this.selected_year = Math.min(...this.years)
@@ -357,9 +389,11 @@ export default {
          */
         prev() {
             this.selected_month_key--
-            console.log(Math.min(...this.months), this.selected_month_key)
+            if(this.selected_month_key < 0) {
+                this.selected_month_key = this.months.length
+            }
             if(this.months.indexOf(this.selected_month_key+1) == -1) {
-                this.prev()
+                return this.prev()
             }
             if(this.selected_month_key < Math.min(...this.months)) {
                 this.selected_month_key = Math.max(...this.months)
@@ -389,7 +423,11 @@ export default {
             this.lastMonth = new Date(this.selected_year, this.selected_month_key, 0);
             this.startDate = new Date(this.selected_year, this.selected_month_key, 1);
             this.endDate = new Date(this.selected_year, this.selected_month_key + 1, 0);
-            this.initialDay = this.startDate.getDay()
+            let initialDay = this.startDate.getDay() - this.firstWeekDay
+            if(this.startDate.getDay() < this.firstWeekDay) {
+                initialDay = this.firstWeekDay == 6 ? this.firstWeekDay - 1 : this.firstWeekDay + 1
+            }
+            this.initialDay = initialDay >= 0 ? initialDay : 0
             this.finalDay = this.endDate.getDay()
             this.days = this.endDate.getDate()
             this.today = new Date

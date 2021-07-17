@@ -10,6 +10,7 @@
 | months       | Avaiable months to selection              | array  | -      | [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]                                                                                    |
 | monthsNames  | Months names                              | array  | -      | ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] |
 | weekdays     | Weekdays                                  | array  | -      | ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']                                             |
+| firstWeekDay | First weekday                             | number | -      | () => 0                                                                                                                    |
 | dates        | Dates to create calendar highlight markup | object | -      | () => {}                                                                                                                   |
 | current_date | Current selected date                     | date   | -      | () => new Date()                                                                                                           |
 
