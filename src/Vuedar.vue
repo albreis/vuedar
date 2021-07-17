@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar-dates" id="calendar-dates" :class="{loading: loading, 'disabled-year': years.indexOf(selected_year) == -1, 'disabled-month': months.indexOf(selected_month) == -1}">
+    <div class="calendar-dates" id="calendar-dates" :class="{'disabled-year': years.indexOf(selected_year) == -1, 'disabled-month': months.indexOf(selected_month) == -1}">
         <!-- @slot header -->
         <slot name="header">
             <div class="calendar-header">
@@ -16,7 +16,7 @@
                 <!-- @slot Month selection dropdown -->
                 <slot name="month">
                     <div class="month" :class="{active: selectMonth}">
-                        <span @click="selectMonth = !selectMonth" class="month-selected">{{selected_month}}</span>
+                        <span @click="selectMonth = !selectMonth" class="month-selected">{{current_date.toLocaleString(locale, { month: "long" })}}</span>
                         <ul>
                             <!-- @bind Months names -->
                             <li v-for="(month, k) in months" :key="month" v-html="monthsNames[month-1]" @click="setMonth(month-1, k)"></li>
@@ -39,7 +39,7 @@
                 <slot name="weekdays">
                     <div class="days-weekdays">
                         <!-- @bind Weekdays -->
-                        <strong v-for="wday in current_weekdays" :key="wday">{{wday.substr(0,3)}}</strong>
+                        <strong v-for="wday in currentWeekDays" :key="wday.getDay()" :title="wday.toLocaleString(locale, { weekday: 'long' })">{{wday.toLocaleString(locale, { weekday: "short" }).substr(0,3)}}</strong>
                     </div>
                 </slot>
                 <!-- @slot Days in month -->
@@ -62,6 +62,13 @@
  */
 export default {
     props: {
+        /**
+         * Localization of months and weekdays names
+         */
+        locale: {
+            type: String,
+            default: () => navigator.language
+        },
         /**
          * Years for selection
          */
@@ -129,6 +136,17 @@ export default {
     },
     data(){
         return {
+            weekDays: [
+                new Date('Sat Jul 4 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 5 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 6 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 7 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 8 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 9 2021 18:33:20 GMT-0300'), 
+                new Date('Sat Jul 10 2021 18:33:20 GMT-0300')
+            ],
+            currentWeekDays: [],
+
             /**
              * Open to select year
              */
@@ -193,7 +211,10 @@ export default {
              * Total days in current month
              */
             days: 0,
-            loading: false,
+
+            /**
+             * Days of week
+             */
             current_weekdays: []
         }
     },
@@ -223,16 +244,16 @@ export default {
          */
         this.update()
 
-        this.getFirsWeekDay()
+        this.getFirstWeekDay()
        
     },
     created() {
-        this.getFirsWeekDay()
+        this.getFirstWeekDay()
     },
     watch: {
         firstWeekDay() { 
-        this.update()
-            this.getFirsWeekDay()
+            this.update()
+            this.getFirstWeekDay()
         },
 
         /**
@@ -296,7 +317,7 @@ export default {
             if(!this.dates || Object.keys(this.dates).length == 0) return false;
             return this.dates[`${d.toString().padStart(2, '0')}${(this.selected_month_key+1).toString().padStart(2, '0')}${this.selected_year}`]
         },
-        getFirsWeekDay() { 
+        getFirstWeekDay() { 
             let firstdays = this.weekdays.slice(0, this.firstWeekDay)
             let lastdays = this.weekdays.slice(this.firstWeekDay, this.weekdays.length)
             let week = []
@@ -307,6 +328,17 @@ export default {
                 week.push(firstdays[i])
             }
             this.current_weekdays = week
+
+            let firstdaysNames = this.weekDays.slice(0, this.firstWeekDay)
+            let lastdaysNames = this.weekDays.slice(this.firstWeekDay, this.weekDays.length)
+            let weekD = []
+            for(let i in lastdaysNames) {
+                weekD.push(lastdaysNames[i])
+            }
+            for(let i in firstdaysNames) {
+                weekD.push(firstdaysNames[i])
+            }
+            this.currentWeekDays = weekD
         },
         /**
          * Change year
@@ -442,20 +474,6 @@ export default {
     margin auto auto 50px auto
     position relative
     font-family Arial, Verdana, 'sans-serif'
-    &.loading 
-        .calendar-body:before
-            content ''
-            position absolute
-            left 0
-            top 0
-            width 100%
-            height 100%
-            border-radius inherit
-            background-color rgba(255,255,255,0.5)
-            background-repeat no-repeat
-            background-position center
-            background-size 80px
-            z-index 10
     .calendar-header
         display flex
         align-items center
@@ -532,6 +550,7 @@ export default {
             display inline-block
             text-align center
             cursor pointer
+            text-transform capitalize
     .calendar-body
         position relative
         padding 15px
@@ -545,6 +564,7 @@ export default {
                 width calc(100% / 7)
                 align-items center
                 justify-content center
+                text-transform capitalize
         .days-month
             display flex
             flex-wrap wrap

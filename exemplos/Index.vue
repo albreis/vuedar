@@ -1,5 +1,5 @@
 <template>
-    <Vuedar :firstWeekDay="1" :weekdays="weekdays" :months="[1, 4, 7, 8]" :years="[2021, 2022, 2023]" />
+    <Vuedar :firstWeekDay="1" :locale="'pt-br'" :weekdays="weekdays" :months="[1, 4, 7, 8]" :years="[2021, 2022, 2023]" />
 </template>
 <script>
 /**

@@ -1,6 +1,6 @@
 {
   "name": "@ersolucoesweb/vuedar",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "private": false,
   "description": "Calendário",
   "author": "ER Soluções Web LTDA <contato@ersolucoesweb.com.br>",
@@ -34,7 +34,7 @@
   },
   "unpkg": "dist/vuedar.min.js",
   "dependencies": {
-    "@ersolucoesweb/vuedar": "^3.5.0",
+    "@ersolucoesweb/vuedar": "^3.6.0",
     "@ersolucoesweb/vuegic": "^3.5.1"
   },
   "devDependencies": {
