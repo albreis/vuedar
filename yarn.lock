@@ -910,6 +910,14 @@
   dependencies:
     "@ersolucoesweb/vuegic" "^3.5.1"
 
+"@ersolucoesweb/vuedar@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@ersolucoesweb/vuedar/-/vuedar-3.5.0.tgz#3c3d8311421221577c6ca1ea5bd67cf6e114efb3"
+  integrity sha512-uZ2AbbL7EbJJ2eDcsOOgocr2mmlj+C/HP6J4L70MfGVvCBKvZTJQalSEbKOC2jj8tO4yUFE5kx6f1lghqqOGOg==
+  dependencies:
+    "@ersolucoesweb/vuedar" "^3.4.0"
+    "@ersolucoesweb/vuegic" "^3.5.1"
+
 "@ersolucoesweb/vuegic@^3.5.0", "@ersolucoesweb/vuegic@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ersolucoesweb/vuegic/-/vuegic-3.5.1.tgz#739d836a1d10930501681d92eb1118f83a135986"
