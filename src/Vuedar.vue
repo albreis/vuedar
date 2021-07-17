@@ -19,7 +19,7 @@
                         <span @click="selectMonth = !selectMonth" class="month-selected">{{selected_month}}</span>
                         <ul>
                             <!-- @bind Months names -->
-                            <li v-for="(month, k) in months" :key="month" v-html="monthsNames[month]" @click="setMonth(month, k)"></li>
+                            <li v-for="(month, k) in months" :key="month" v-html="monthsNames[month-1]" @click="setMonth(month-1, k)"></li>
                         </ul>
                     </div>
                 </slot>
@@ -42,7 +42,6 @@
                         <strong v-for="wday in weekdays" :key="wday">{{wday.substr(0,3)}}</strong>
                     </div>
                 </slot>
-                {{selected_month_key}}{{selected_year}}
                 <!-- @slot Days in month -->
                 <slot name="day">
                     <div class="days-month">
@@ -119,6 +118,9 @@ export default {
             get: function() {
                 return this.current_date
             }
+        },
+        month_key() {
+            return 1
         }
     },
     data(){
@@ -199,13 +201,12 @@ export default {
         /**
          * Set current month name
          */
-        let monthNumber = this.months.includes(this.active_date.getMonth()+1) ? (this.active_date.getMonth()+1) : 1;
-        this.selected_month = this.monthsNames[monthNumber];
+        this.selected_month = this.monthsNames[this.active_date.getMonth()];
 
         /**
          * Set current month number
          */
-        this.selected_month_key = monthNumber;
+        this.selected_month_key = this.active_date.getMonth();
 
         /**
          * Set current day
@@ -286,7 +287,7 @@ export default {
             this.selected_year_key = k
             this.selectYear = false
             this.selected_day = null
-            if(this.selected_year == this.today.getFullYear() && this.months[this.selected_month_key] == this.today.getMonth()) {
+            if(this.selected_year == this.today.getFullYear() && this.month_key == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
         },
@@ -299,10 +300,10 @@ export default {
          */
         setMonth(m, k) {
             this.selected_month = this.monthsNames[m]
-            this.selected_month_key = k
+            this.selected_month_key = m
             this.selectMonth = false
             this.selected_day = null
-            if(this.selected_year == this.today.getFullYear() && this.months[this.selected_month_key] == this.today.getMonth()) {
+            if(this.selected_year == this.today.getFullYear() && this.month_key == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
         },
@@ -325,14 +326,20 @@ export default {
          */
         next() {
             this.selected_month_key++
-            if(this.selected_month_key > (this.months.length - 1)) {
-                this.selected_month_key = 0
+            console.log(Math.min(...this.months), this.selected_month_key)
+            if(this.selected_month_key > Math.max(...this.months)) {
+                this.selected_month_key = Math.min(...this.months)-1
                 this.selected_year++
             }
-            console.log(this.selected_month_key, this.months[this.selected_month_key])
-            this.selected_month = this.monthsNames[this.months[this.selected_month_key]-1]
+            if(this.months.indexOf(this.selected_month_key+1) == -1) {
+                this.next()
+            }
+            if(this.selected_year > Math.max(...this.years)) {
+                this.selected_year = Math.min(...this.years)
+            }
+            this.selected_month = this.monthsNames[this.selected_month_key]
             this.selected_day = null
-            if(this.months[this.selected_month_key] == this.today.getMonth() && this.selected_year == this.today.getFullYear()) {
+            if(this.selected_month_key == this.today.getMonth() && this.selected_year == this.today.getFullYear()) {
                 this.selected_day = this.today.getDate()
             }
 
@@ -351,13 +358,20 @@ export default {
          */
         prev() {
             this.selected_month_key--
-            if(this.selected_month_key < 0) {
-                this.selected_month_key = (this.months.length - 1)
+            console.log(Math.min(...this.months), this.selected_month_key)
+            if(this.months.indexOf(this.selected_month_key+1) == -1) {
+                this.prev()
+            }
+            if(this.selected_month_key < Math.min(...this.months)) {
+                this.selected_month_key = Math.max(...this.months)
                 this.selected_year--
             }
-            this.selected_month = this.monthsNames[this.months[this.selected_month_key]]
+            if(this.selected_year < Math.min(...this.years)) {
+                this.selected_year = Math.max(...this.years)
+            }
+            this.selected_month = this.monthsNames[this.selected_month_key]
             this.selected_day = null
-            if(this.months[this.selected_month_key] == this.today.getMonth() && this.selected_year == this.today.getFullYear()) {
+            if(this.selected_month_key == this.today.getMonth() && this.selected_year == this.today.getFullYear()) {
                 this.selected_day = this.today.getDate()
             }
 
@@ -373,9 +387,9 @@ export default {
          * Update calendar interface after change the date
          */
         update() {
-            this.lastMonth = new Date(this.selected_year, this.months[this.selected_month_key], 0);
-            this.startDate = new Date(this.selected_year, this.months[this.selected_month_key], 1);
-            this.endDate = new Date(this.selected_year, this.months[this.selected_month_key] + 1, 0);
+            this.lastMonth = new Date(this.selected_year, this.selected_month_key, 0);
+            this.startDate = new Date(this.selected_year, this.selected_month_key, 1);
+            this.endDate = new Date(this.selected_year, this.selected_month_key + 1, 0);
             this.initialDay = this.startDate.getDay()
             this.finalDay = this.endDate.getDay()
             this.days = this.endDate.getDate()
