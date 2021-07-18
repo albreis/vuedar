@@ -17,14 +17,18 @@
 
 ## Events
 
-| Event name   | Properties                                     | Description                                   |
-| ------------ | ---------------------------------------------- | --------------------------------------------- |
-| change_year  | **Date** `active_date` - Current selected date | Event triggered on year change                |
-| change_month | **Date** `active_date` - Current selected date | Event triggered on month change               |
-| change_day   | **Date** `active_date` - Current selected date | Event triggered on day click                  |
-| change_date  | **Date** `active_date` - Current selected date | Event triggered on date change                |
-| nav_next     | **Date** `active_date` - Current selected date | Event triggered when click in NEXT button     |
-| nav_prev     | **Date** `active_date` - Current selected date | Event triggered when click in PREVIOUS button |
+| Event name      | Properties                                     | Description                                   |
+| --------------- | ---------------------------------------------- | --------------------------------------------- |
+| change_year     | **Date** `active_date` - Current selected date | Event triggered on year change                |
+| change_month    | **Date** `active_date` - Current selected date | Event triggered on month change               |
+| change_day      | **Date** `active_date` - Current selected date | Event triggered on day click                  |
+| change_date     | **Date** `active_date` - Current selected date | Event triggered on date change                |
+| select_year     |                                                |
+| select_month    |                                                |
+| click_day       |                                                |
+| nav_next        | **Date** `active_date` - Current selected date | Event triggered when click in NEXT button     |
+| nav_prev        | **Date** `active_date` - Current selected date | Event triggered when click in PREVIOUS button |
+| update_calendar |                                                |
 
 ## Slots
 

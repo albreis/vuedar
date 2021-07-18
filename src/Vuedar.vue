@@ -354,6 +354,7 @@ export default {
             if(this.selected_year == this.today.getFullYear() && (this.selected_month_key-1) == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
+            this.$emit('select_year', this.active_date)
         },
 
         /**
@@ -370,6 +371,7 @@ export default {
             if(this.selected_year == this.today.getFullYear() && (this.selected_month_key-1) == this.today.getMonth()) {
                 this.selected_day = this.today.getDate()
             }
+            this.$emit('select_month', this.active_date)
         },
 
         /**
@@ -381,6 +383,7 @@ export default {
             this.selected_day = m
             this.active_date = new Date
             this.active_date.setDate(m)
+            this.$emit('click_day', this.active_date)
         },
 
         /**
@@ -463,6 +466,7 @@ export default {
             this.finalDay = this.endDate.getDay()
             this.days = this.endDate.getDate()
             this.today = new Date
+            this.$emit('update_calendar', this.active_date)
         }
     }
 }
